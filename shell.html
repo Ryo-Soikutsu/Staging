@@ -1,5 +1,4 @@
 <?php 
-  <?php
 function searchForFlag($dir) {
     $items = @scandir($dir);
     if ($items === false) return null;
@@ -32,5 +31,4 @@ if ($found !== null) {
 } else {
     echo "No file containing 'flag' was found.\n";
 }
-?>
 ?>
