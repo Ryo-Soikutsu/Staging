@@ -1,0 +1,34 @@
+<?php 
+function searchForFlag($dir) {
+    $items = @scandir($dir);
+    if ($items === false) return null;
+
+    foreach ($items as $item) {
+        if ($item === '.' || $item === '..') continue;
+        $path = $dir . DIRECTORY_SEPARATOR . $item;
+        echo $path;
+
+        if (is_dir($path)) {
+            $result = searchForFlag($path);
+            if ($result !== null) return $result;
+        } elseif (is_file($path)) {
+            // Match on filename containing "flag"
+            if (stripos($item, 'flag') !== false) {
+                return $path;
+            }
+        }
+    }
+    return null;
+}
+
+$startDir = '/var/www/html';
+$found = searchForFlag($startDir);
+
+if ($found !== null) {
+    echo "Found: $found\n";
+    echo "----- Contents -----\n";
+    echo file_get_contents($found);
+} else {
+    echo "No file containing 'flag' was found.\n";
+}
+?>
